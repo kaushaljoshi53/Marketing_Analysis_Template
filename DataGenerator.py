@@ -1,9 +1,12 @@
-import pandas as pd
 import random
-from faker import Faker
 from datetime import datetime, timedelta
+from typing import Any
+
+import pandas as pd
+from faker import Faker
 
 fake = Faker()
+
 
 # Function to generate random spend data
 def generate_marketing_spend_data():
@@ -13,7 +16,9 @@ def generate_marketing_spend_data():
     region = fake.random_element(elements=('UK', 'US', 'France', 'Canada'))
     amount = round(random.uniform(1000, 10000), 2)
 
-    return {'spend_id': spend_id, 'marketing_tactic': marketing_tactic, 'spend_month': spend_month, 'region': region, 'amount': amount}
+    return {'spend_id': spend_id, 'marketing_tactic': marketing_tactic, 'spend_month': spend_month, 'region': region,
+            'amount': amount}
+
 
 # Function to generate random leads data
 def generate_leads_data(spend_data):
@@ -25,7 +30,8 @@ def generate_leads_data(spend_data):
     status = random.choice(['Closed-won', 'Open'])
 
     if status == 'Closed-won':
-        closed_date = (datetime.strptime(enquiry_month, '%Y-%m-%d') + timedelta(days=random.randint(1, 30))).strftime('%Y-%m-%d')
+        closed_date = (datetime.strptime(enquiry_month, '%Y-%m-%d') + timedelta(days=random.randint(1, 30))).strftime(
+            '%Y-%m-%d')
         customer_id = fake.uuid4()
     else:
         closed_date = None
@@ -33,7 +39,9 @@ def generate_leads_data(spend_data):
 
     region = spend_data['region']
 
-    return {'lead_id': lead_id, 'tactic': tactic, 'enquiry_month': enquiry_month, 'status': status, 'closed_date': closed_date, 'customer_id': customer_id, 'region': region}
+    return {'lead_id': lead_id, 'tactic': tactic, 'enquiry_month': enquiry_month, 'status': status,
+            'closed_date': closed_date, 'customer_id': customer_id, 'region': region}
+
 
 # Function to generate random customer cube data
 def generate_customer_cube_data(customer_id, region, closed_date):
@@ -71,7 +79,11 @@ def generate_customer_cube_data(customer_id, region, closed_date):
                 bill_amount = round(random.uniform(50, 200), 2)
                 recurring_flag = 1
 
-                customer_cube_data.append({'customer_id': customer_id, 'region': region, 'bill_start_month': bill_start_date.strftime('%Y-%m-%d'), 'bill_end_month': bill_end_date.strftime('%Y-%m-%d'), 'product_id': product['id'], 'bill_amount': bill_amount, 'recurring_flag': recurring_flag, 'bill_month': bill_month})
+                customer_cube_data.append({'customer_id': customer_id, 'region': region,
+                                           'bill_start_month': bill_start_date.strftime('%Y-%m-%d'),
+                                           'bill_end_month': bill_end_date.strftime('%Y-%m-%d'),
+                                           'product_id': product['id'], 'bill_amount': bill_amount,
+                                           'recurring_flag': recurring_flag, 'bill_month': bill_month})
 
                 # Move to the next month
                 bill_start_date = bill_start_date + timedelta(days=30)
@@ -83,9 +95,13 @@ def generate_customer_cube_data(customer_id, region, closed_date):
             bill_amount = round(random.uniform(50, 200), 2)
             recurring_flag = 0
 
-            customer_cube_data.append({'customer_id': customer_id, 'region': region, 'bill_start_month': bill_start_date.strftime('%Y-%m-%d'), 'bill_end_month': None, 'product_id': product['id'], 'bill_amount': bill_amount, 'recurring_flag': recurring_flag, 'bill_month': bill_month})
+            customer_cube_data.append(
+                {'customer_id': customer_id, 'region': region, 'bill_start_month': bill_start_date.strftime('%Y-%m-%d'),
+                 'bill_end_month': bill_end_date, 'product_id': product['id'], 'bill_amount': bill_amount,
+                 'recurring_flag': recurring_flag, 'bill_month': bill_month})
 
     return customer_cube_data
+
 
 if __name__ == '__main__':
 
@@ -120,6 +136,6 @@ if __name__ == '__main__':
     customer_cube_df = pd.DataFrame(customer_cube_data)
 
     # Save dataframes to CSV files
-    spends_df.to_csv('spends_table.csv', index=False)
-    leads_df.to_csv('leads_table.csv', index=False)
-    customer_cube_df.to_csv('customer_cube_table.csv', index=False)
+    spends_df.to_csv('Input Files/spends_table.csv', index=False)
+    leads_df.to_csv('Input Files/leads_table.csv', index=False)
+    customer_cube_df.to_csv('Input Files/customer_cube_table.csv', index=False)

@@ -1,9 +1,9 @@
-
 import pandas as pd
+
 
 class MarketingSpends:
 
-    requiredColumns = [
+    required_columns = [
         "spend_id",
         "marketing_tactic",
         "region",
@@ -11,22 +11,18 @@ class MarketingSpends:
         "amount"
     ]
 
-    def __init__(self, data:pd.DataFrame):
+    def __init__(self, data: pd.DataFrame):
         self.data = data
         self.columns = data.columns
 
-    def validateColumns(self):
-
-        print(self.columns,"Self")
-        print(MarketingSpends.requiredColumns,"Marketing Spends")
-
-        return all(item in self.columns for item in MarketingSpends.requiredColumns)
+    def validate_columns(self):
+        return all(item in self.columns for item in MarketingSpends.required_columns)
 
 
 class LeadsTable:
 
     required_columns = [
-        "lead_Id",
+        "lead_id",
         "tactic",
         "enquiry_month",
         "status",
@@ -46,15 +42,14 @@ class LeadsTable:
 class CustomerCube:
 
     required_columns = [
-        "Customer Id",
-        "Region",
-        "Bill Id",
-        "Bill Start Date",
-        "Bill End Date",
-        "Product Id",
-        "Bill Amount",
-        "Recurring Flag",
-        "Bill Month"
+        "customer_id",
+        "region",
+        "bill_start_month",
+        "bill_end_month",
+        "product_id",
+        "bill_amount",
+        "recurring_flag",
+        "bill_month"
     ]
 
     def __init__(self, data: pd.DataFrame):
